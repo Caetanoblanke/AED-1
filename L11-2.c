@@ -13,6 +13,7 @@ int main(){
         return 1;
     }
 
+    printf("Lendo o arquivo...\n");
     while ((ch = fgetc(file)) != EOF )
     {
         if (ch == '\n')
