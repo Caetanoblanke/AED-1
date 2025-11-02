@@ -27,6 +27,8 @@ int main(){
     scanf("%d", &n);
 
     canPlaceFlowers(flowerbed,flowerbedSize,n);
+
+    free(flowerbed);
     
 }
 
@@ -52,4 +54,5 @@ bool canPlaceFlowers(int* flowerbed, int flowerbedSize, int n)
         return false;
     }
 }  
+
 
