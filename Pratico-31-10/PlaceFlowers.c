@@ -28,7 +28,7 @@ int main(){
 
     canPlaceFlowers(flowerbed,flowerbedSize,n);
 
-    free(flowerbed);
+    
     
 }
 
@@ -54,5 +54,6 @@ bool canPlaceFlowers(int* flowerbed, int flowerbedSize, int n)
         return false;
     }
 }  
+
 
 
