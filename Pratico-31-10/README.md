@@ -1,7 +1,9 @@
 Caetano Blanke - M2 Algoritmos e estrutura de dados
 Problema 605 do leetCode - Can Place Flowers
 
-O problema consiste em você receber um vetor de numeros de 0 ou 1 onde, 1 se tem flor e 0 se não tem e um numero de flores que quer adcionar, porem não pode ter flores adjacentes, flores uma do lado da outra
+O problema consiste em você receber um vetor de numeros de 0 ou 1 onde, 1 se tem flor e 0 se não tem e um numero de flores que quer adcionar, porem não pode ter flores adjacentes, flores uma do lado da outra.
+
+
 Ex 1: 
 [1,0,0,0,1] 
 n = 1
