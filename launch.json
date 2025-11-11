@@ -1,0 +1,13 @@
+{
+  "name": "Debug",
+  "type": "cppvsdbg",
+  "request": "launch",
+  "program": "/home/caetano/Faculdade/AED-1/Buffer/output/Buffer",
+  "externalConsole": true,
+  "logging": {
+    "moduleLoad": false,
+    "trace": true
+  },
+  "visualizerFile": "${workspaceFolder}/",
+  "showDisplayString": true
+}

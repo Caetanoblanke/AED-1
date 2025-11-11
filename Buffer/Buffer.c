@@ -25,9 +25,11 @@ int main(){
     int *opcao = (int*)((char*)pBuffer + sizeof(int));
     *opcao = 0;
 
-    while (*opcao != 5)
+    do
     {
+        opcao = (int*)((char*)pBuffer + sizeof(int));
         printf("\nMenu:\n1-Adcionar Pessoa.\n2-Remover Pessoa.\n3-Buscar Pessoa.\n4-Listar Pessoas.\n5-Salvar e sair.\n");
+        printf("Escolha: ");
         scanf("%d",opcao);
         getchar();
 
@@ -35,6 +37,7 @@ int main(){
         {
         case 1:
             adiciona(&pBuffer);
+            *opcao = 0;
             break;
         
         case 2:
@@ -56,7 +59,7 @@ int main(){
         default:
             printf("Insira um numero valido\n");
         }
-    }
+    } while (*opcao != 5);
 
     free(pBuffer);
 }
@@ -102,6 +105,7 @@ void busca(void *pBuffer)
 
     printf("Digite o email da pessoa que busca: ");
     scanf("%49s",emailBusca);
+    while (getchar() != "\n");
     
     void *pessoa = (char*) pBuffer + AREA_TEMP + sizeof(int) * 2;
 
@@ -132,19 +136,21 @@ void adiciona(void **pBuffer)
 {
     int *qtd = (int*) (*pBuffer);
     
-    char *nomeTemp = (char*)(*pBuffer) + sizeof(int) * 2; 
+    char *nomeTemp = (char*)(*pBuffer + sizeof(int) * 2); 
     int *idadeTemp = (int*)(nomeTemp + sizeof(char) * 50);
     char *emailTemp = (char*)(nomeTemp + sizeof(char) * 50 + sizeof(int));
 
     printf("Digite o nome que deseja adicionar: ");
     scanf("%49s", nomeTemp);
-
+    while (getchar() != '\n');
+    
     printf("Digite a idade da pessoa que deseja adicionar: ");
     scanf("%d", idadeTemp);
 
     printf("Digite o email da pessoa que quer adcionar: ");
     scanf("%49s", emailTemp);
-
+    while (getchar() != '\n');
+    
     void *pessoa = (char*)(*pBuffer) + AREA_TEMP + sizeof(int) * 2;
 
     for (int i = 0; i < *qtd; i++)
@@ -195,6 +201,7 @@ void removePessoa(void **pBuffer)
 
     printf("Digite o email da pessoa que deseja remover: ");
     scanf("%49s", emailTemp);
+    while (getchar() != "\n");
 
     void *pessoa = (char*)(*pBuffer) + AREA_TEMP + sizeof(int) * 2;
 
