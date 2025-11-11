@@ -105,7 +105,7 @@ void busca(void *pBuffer)
 
     printf("Digite o email da pessoa que busca: ");
     scanf("%49s",emailBusca);
-    while (getchar() != "\n");
+    while (getchar() != '\n');
     
     void *pessoa = (char*) pBuffer + AREA_TEMP + sizeof(int) * 2;
 
@@ -201,7 +201,7 @@ void removePessoa(void **pBuffer)
 
     printf("Digite o email da pessoa que deseja remover: ");
     scanf("%49s", emailTemp);
-    while (getchar() != "\n");
+    while (getchar() != '\n');
 
     void *pessoa = (char*)(*pBuffer) + AREA_TEMP + sizeof(int) * 2;
 
