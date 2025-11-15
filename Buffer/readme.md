@@ -1,3 +1,5 @@
+Caetano Blanke - M2 Algoritmos e estrutura de dados
+
 Faça uma agenda com o seguinte menu:
 1- Adicionar Pessoa (Nome, Idade, email)
 2- Remover Pessoa
@@ -13,3 +15,10 @@ Nem mesmo como parâmetro de função. Só ponteiros que apontam para dentro do 
 
 2.Exemplo do que não pode: int c; char a; int v[10];  void Funcao(int parametro)
 Não pode usar struct em todo o programa.
+
+Minha ideia foi inicializar um buffer com espaço para 2 inteiros, um para quantidade de pessoas e outro para opcao, e uma area temporaria de para não inserir diretamente no buffer, tendo espaco para 50 chars para nome, 1 inteiro para idade e mais 50 char para email, ficando assim:
+
+Inicial:
+4 bytes | 4 bytes | 104 bytes
+
+E de acordo com que for adcionando pessoas, adciona mais 104 bytes, 50 char nome, 4 inteiros idade, 50 char email.
