@@ -37,11 +37,14 @@ int main(){
         {
         case 1:
             adiciona(&pBuffer);
-            *opcao = 0;
+            qtd = (int*) pBuffer;
+            opcao = (int*) ((char*) pBuffer + sizeof(int));
             break;
         
         case 2:
             removePessoa(&pBuffer);
+            qtd = (int*) pBuffer;
+            opcao = (int*) ((char*) pBuffer + sizeof(int));
             break;
 
         case 3:
@@ -174,6 +177,8 @@ void adiciona(void **pBuffer)
     }
 
     qtd = (int*)(*pBuffer);
+
+    void *areaTemp = (char*)(*pBuffer) + sizeof(int) * 2;
 
     pessoa = (char*)(*pBuffer) + sizeof(int) * 2 + AREA_TEMP + (TAM_PESSOA * (*qtd));
 
