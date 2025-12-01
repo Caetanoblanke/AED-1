@@ -24,13 +24,13 @@ void reorderList(struct ListNode *head)
     struct ListNode *aux = head;
     int tamanho = 0;
 
-    while (aux != NULL)
+    while (aux != NULL)  
     {
         tamanho++;
         aux = aux->next;
     }
 
-    int meio = tamanho / 2;
+    int meio = (tamanho + 1) / 2;
 
     struct ListNode *anterior = NULL;
     struct ListNode *atual = head;
@@ -41,13 +41,13 @@ void reorderList(struct ListNode *head)
         atual = atual->next;
     }
 
-    anterior->next = NULL;
+    anterior->next = NULL; 
 
     struct ListNode *prev = NULL;
     struct ListNode *curr = atual;
     struct ListNode *prox;
 
-    while (curr != NULL)
+    while (curr != NULL)   
     {
         prox = curr->next;
         curr->next = prev;
@@ -58,7 +58,7 @@ void reorderList(struct ListNode *head)
     struct ListNode *l1 = head;
     struct ListNode *l2 = prev;
 
-    while (l2 != NULL)
+    while (l1 != NULL && l2 != NULL) 
     {
         struct ListNode *l1_next = l1->next;
         struct ListNode *l2_next = l2->next;
