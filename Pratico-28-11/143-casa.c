@@ -12,7 +12,64 @@ void reorderList(ListNode *head);
 
 int main()
 {
+    int tamanho;
+
+    printf("Digite o tamanho da lista: ");
+    scanf("%d", &tamanho);
+
+    if (tamanho <= 0)
+    {
+        printf("Tamanho inválido.\n");
+        return 0;
+    }
+
+    ListNode *head = NULL;
+    ListNode *atual = NULL;
+
+    printf("Preencha os valores da lista:\n");
+    for (int i = 0; i < tamanho; i++)
+    {
+        ListNode *novo = (ListNode*)malloc(sizeof(ListNode));
+        scanf("%d", &novo->val);
+        novo->next = NULL;
+
+        if (head == NULL)
+        {
+            head = novo;
+            atual = novo;
+        }
+        else
+        {
+            atual->next = novo;
+            atual = novo;
+        }
+    }
+
+    printf("\nLista original:\n");
+    ListNode *aux = head;
+    while (aux != NULL)
+    {
+        printf("%d -> ", aux->val);
+        aux = aux->next;
+    }
+    printf("NULL\n");
+
+    
+    reorderList(head);
+
+    
+    printf("\nLista reordenada:\n");
+    aux = head;
+    while (aux != NULL)
+    {
+        printf("%d -> ", aux->val);
+        aux = aux->next;
+    }
+    printf("NULL\n");
+
+    return 0;
 }
+
 
 void reorderList(struct ListNode *head)
 {
@@ -66,8 +123,8 @@ void reorderList(struct ListNode *head)
         l1->next = l2;
         l2->next = l1_next;
 
-        l1 = l1_next;
-        l2 = l2_next;
+        l1 = l1_next; 
+        l2 = l2_next; 
     }
 }
     
