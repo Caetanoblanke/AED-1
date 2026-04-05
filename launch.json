@@ -3,9 +3,9 @@
   "type": "cppvsdbg",
   "request": "launch",
   "program": "/home/caetano/Faculdade/AED-1/Buffer/output/Buffer",
-  "externalConsole": true,
+  "externalConsole": false,
   "logging": {
-    "moduleLoad": false,
+    "moduleLoad": true,
     "trace": true
   },
   "visualizerFile": "${workspaceFolder}/",
