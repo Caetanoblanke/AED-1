@@ -45,6 +45,8 @@ int* findDiagonalOrder(int** mat, int matSize, int* matColSize, int* returnSize)
         }
     }
 
+    free(resultado);
+
     
     *returnSize = k;
     return resultado;
