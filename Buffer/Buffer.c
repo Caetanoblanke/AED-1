@@ -19,32 +19,26 @@ int main(){
         return -1;
     }
 
-    int *qtd = (int*) pBuffer;
-    *qtd = 0;
-
-    int *opcao = (int*)((char*)pBuffer + sizeof(int));
-    *opcao = 0;
+    *(int*)pBuffer = 0;
+    *(int*)((char*)pBuffer + sizeof(int)) = 0;
 
     do
     {
-        opcao = (int*)((char*)pBuffer + sizeof(int));
-        printf("\nMenu:\n1-Adcionar Pessoa.\n2-Remover Pessoa.\n3-Buscar Pessoa.\n4-Listar Pessoas.\n5-Salvar e sair.\n");
+        int *opcao = (int*)((char*)pBuffer + sizeof(int));
+
+        printf("\nMenu:\n1-Adcionar Pessoa.\n2-Remover Pessoa.\n3-Buscar Pessoa.\n4-Listar Pessoas.\n5-Sair.\n");
         printf("Escolha: ");
-        scanf("%d",opcao);
+        scanf("%d", opcao);
         getchar();
 
         switch (*opcao)
         {
         case 1:
             adiciona(&pBuffer);
-            qtd = (int*) pBuffer;
-            opcao = (int*) ((char*) pBuffer + sizeof(int));
             break;
         
         case 2:
             removePessoa(&pBuffer);
-            qtd = (int*) pBuffer;
-            opcao = (int*) ((char*) pBuffer + sizeof(int));
             break;
 
         case 3:
@@ -56,13 +50,14 @@ int main(){
             break;
 
         case 5:
-        printf("Saindo...\n");
+            printf("Saindo...\n");
             break;
 
         default:
-            printf("Insira um numero valido\n");
+            printf("Opcao invalida\n");
         }
-    } while (*opcao != 5);
+
+    } while (*(int*)((char*)pBuffer + sizeof(int)) != 5);
 
     free(pBuffer);
 }
@@ -70,171 +65,168 @@ int main(){
 void lista(void *pBuffer)
 {
     int *qtd = (int*) pBuffer;
+
     if (*qtd == 0)
     {
-        printf("Lista esta vazia\n");
+        printf("Lista vazia\n");
         return;
     }
 
     char *pessoa = (char*) pBuffer + sizeof(int) * 2 + AREA_TEMP;
+    char *fim = pessoa + (*qtd * TAM_PESSOA);
 
-    printf("Listando pessoas:\n");
-    for (int i = 0; i < *qtd; i++)
+    while (pessoa < fim)
     {
         char *nome = pessoa;
-        int *idade = (int*)(pessoa + sizeof(char) * 50);
-        char *email = (char*)(pessoa + sizeof(char) * 50 + sizeof(int));
+        int *idade = (int*)(pessoa + 50);
+        char *email = (char*)(pessoa + 50 + sizeof(int));
 
-        printf("Pessoa %d:\n",i+1);
-        printf("  Nome:  %s\n",nome);
-        printf("  Idade: %d\n", *idade);
-        printf("  Email: %s\n", email);
+        printf("Nome: %s\n", nome);
+        printf("Idade: %d\n", *idade);
+        printf("Email: %s\n\n", email);
 
-        pessoa = pessoa + TAM_PESSOA;
+        pessoa += TAM_PESSOA;
     }
 }
 
 void busca(void *pBuffer)
 {
     int *qtd = (int*) pBuffer;
+
     if (*qtd == 0)
     {
-        printf("Lista vazia.\n");
+        printf("Lista vazia\n");
         return;
     }
 
     void *areaTemp = (char*) pBuffer + sizeof(int) * 2;
-    char *emailBusca = (char*) areaTemp + sizeof(char) * 50 + sizeof(int); 
+    char *emailBusca = (char*) areaTemp + 50 + sizeof(int);
 
-    printf("Digite o email da pessoa que busca: ");
-    scanf("%49s",emailBusca);
-    while (getchar() != '\n');
-    
-    void *pessoa = (char*) pBuffer + AREA_TEMP + sizeof(int) * 2;
+    printf("Digite o email: ");
+    scanf("%49s", emailBusca);
+    getchar();
 
-    for (int i = 0; i < *qtd; i++)
+    char *pessoa = (char*) pBuffer + sizeof(int) * 2 + AREA_TEMP;
+    char *fim = pessoa + (*qtd * TAM_PESSOA);
+
+    while (pessoa < fim)
     {
-        char *nome = (char*) pessoa;
-        int *idade =(int*)(pessoa + sizeof(char) * 50);
-        char *email = (char*)(pessoa + sizeof(char) * 50 + sizeof(int));
+        char *nome = pessoa;
+        int *idade = (int*)(pessoa + 50);
+        char *email = (char*)(pessoa + 50 + sizeof(int));
 
-        if (strcmp(email,emailBusca) == 0)
+        if (strcmp(email, emailBusca) == 0)
         {
-            printf("Pessoa encontrada\n");
-            printf("Nome: %s\n",nome);
-            printf("Idade: %d\n",*idade);
-            printf("Email: %s\n",email);
-
+            printf("Encontrado:\n%s %d %s\n", nome, *idade, email);
             return;
-
         }
-        pessoa = (char*)pessoa + TAM_PESSOA;
+
+        pessoa += TAM_PESSOA;
     }
 
-    printf("Pessoa nao encontrada.\n");
+    printf("Nao encontrado\n");
 }
-
 
 void adiciona(void **pBuffer)
 {
     int *qtd = (int*) (*pBuffer);
-    
-    char *nomeTemp = (char*)(*pBuffer + sizeof(int) * 2); 
-    int *idadeTemp = (int*)(nomeTemp + sizeof(char) * 50);
-    char *emailTemp = (char*)(nomeTemp + sizeof(char) * 50 + sizeof(int));
 
-    printf("Digite o nome que deseja adicionar: ");
+    char *nomeTemp = (char*)(*pBuffer + sizeof(int) * 2);
+    int *idadeTemp = (int*)(nomeTemp + 50);
+    char *emailTemp = (char*)(nomeTemp + 50 + sizeof(int));
+
+    printf("Nome: ");
     scanf("%49s", nomeTemp);
-    while (getchar() != '\n');
-    
-    printf("Digite a idade da pessoa que deseja adicionar: ");
+    getchar();
+
+    printf("Idade: ");
     scanf("%d", idadeTemp);
 
-    printf("Digite o email da pessoa que quer adcionar: ");
+    printf("Email: ");
     scanf("%49s", emailTemp);
-    while (getchar() != '\n');
-    
-    void *pessoa = (char*)(*pBuffer) + AREA_TEMP + sizeof(int) * 2;
+    getchar();
 
-    for (int i = 0; i < *qtd; i++)
+    char *pessoa = (char*)(*pBuffer) + sizeof(int) * 2 + AREA_TEMP;
+    char *fim = pessoa + (*qtd * TAM_PESSOA);
+
+    while (pessoa < fim)
     {
-        char *email = (char*)(pessoa + sizeof(char) * 50 + sizeof(int));
+        char *email = pessoa + 50 + sizeof(int);
 
-        if (strcmp(email,emailTemp) == 0)
+        if (strcmp(email, emailTemp) == 0)
         {
-            printf("Email ja cadastrado.\n");
+            printf("Email ja existe\n");
             return;
         }
 
-        pessoa = (char*) pessoa + TAM_PESSOA;
+        pessoa += TAM_PESSOA;
     }
 
-    *pBuffer = realloc(*pBuffer,sizeof(int) * 2 + AREA_TEMP + TAM_PESSOA * (*qtd + 1));
+    *pBuffer = realloc(*pBuffer, sizeof(int) * 2 + AREA_TEMP + TAM_PESSOA * (*qtd + 1));
+
     if (!(*pBuffer))
     {
-        printf("Erro ao alocar memoria.\n");
+        printf("Erro realloc\n");
         exit(1);
     }
 
     qtd = (int*)(*pBuffer);
 
-    void *areaTemp = (char*)(*pBuffer) + sizeof(int) * 2;
+    char *destino = (char*)(*pBuffer) + sizeof(int) * 2 + AREA_TEMP + (*qtd * TAM_PESSOA);
 
-    pessoa = (char*)(*pBuffer) + sizeof(int) * 2 + AREA_TEMP + (TAM_PESSOA * (*qtd));
-
-    memcpy(pessoa,(char*)(*pBuffer) + sizeof(int) * 2,TAM_PESSOA);
+    memcpy(destino, (char*)(*pBuffer) + sizeof(int) * 2, TAM_PESSOA);
 
     (*qtd)++;
 
-    printf("Pessoa adicionada com sucesso.\n");
-    return;
+    printf("Adicionado com sucesso\n");
 }
-
-
 
 void removePessoa(void **pBuffer)
 {
     int *qtd = (int*) *pBuffer;
+
     if (*qtd == 0)
     {
-        printf("Lista vazia.\n");
+        printf("Lista vazia\n");
         return;
     }
 
     void *areaTemp = (char*)(*pBuffer) + sizeof(int) * 2;
-    char *emailTemp =(char*)(areaTemp + sizeof(char) * 50 + sizeof(int));
+    char *emailTemp = (char*)(areaTemp + 50 + sizeof(int));
 
-    printf("Digite o email da pessoa que deseja remover: ");
+    printf("Email para remover: ");
     scanf("%49s", emailTemp);
-    while (getchar() != '\n');
+    getchar();
 
-    void *pessoa = (char*)(*pBuffer) + AREA_TEMP + sizeof(int) * 2;
+    char *pessoa = (char*)(*pBuffer) + sizeof(int) * 2 + AREA_TEMP;
+    char *fim = pessoa + (*qtd * TAM_PESSOA);
 
-    for (int i = 0; i < *qtd; i++)
+    while (pessoa < fim)
     {
-        char *email = (char*)pessoa + sizeof(char) * 50 + sizeof(int);
+        char *email = pessoa + 50 + sizeof(int);
 
         if (strcmp(email, emailTemp) == 0)
         {
-            printf("Pessoa encontrada e removida.\n");
+            char *proxima = pessoa + TAM_PESSOA;
 
-            char *proxima = (char*) pessoa + TAM_PESSOA;
-            memmove(pessoa, proxima, (*qtd - i - 1) * TAM_PESSOA);
+            memmove(pessoa, proxima, fim - proxima);
 
             (*qtd)--;
 
-            *pBuffer = realloc(*pBuffer, sizeof(int) * 2 + AREA_TEMP + ((*qtd) * TAM_PESSOA));
+            *pBuffer = realloc(*pBuffer, sizeof(int) * 2 + AREA_TEMP + (*qtd * TAM_PESSOA));
+
             if (!(*pBuffer))
             {
-                printf("Erro ao realocar memoria.\n");
+                printf("Erro realloc\n");
                 return;
             }
 
+            printf("Removido\n");
             return;
         }
 
-        pessoa = (char*) pessoa + TAM_PESSOA;
+        pessoa += TAM_PESSOA;
     }
 
-    printf("Pessoa nao esta na lista.\n");
+    printf("Nao encontrado\n");
 }

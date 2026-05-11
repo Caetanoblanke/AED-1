@@ -1,7 +1,7 @@
 Caetano blanke - Algoritmos e estrutura de dados I
 Leetcode 498 - Diagonal Transversa
 
-Dada uma m x nmatriz mat, retorne um array contendo todos os elementos da matriz em ordem diagonal .
+Dada uma m x n matriz mat, retorne um array contendo todos os elementos da matriz em ordem diagonal .
 
 Exemplo 1:
 
